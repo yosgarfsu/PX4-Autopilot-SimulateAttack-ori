@@ -44,6 +44,11 @@
 #include <lib/conversion/rotation.h>
 #include <lib/systemlib/px4_macros.h>
 
+// // Modified by Yosgarf on 20231203
+// #include <px4_log.h>
+// #include <px4_platform_common/posix.h>
+// // Mod End
+
 #include <math.h>
 #include <poll.h>
 
@@ -2398,6 +2403,12 @@ MavlinkReceiver::handle_message_hil_gps(mavlink_message_t *msg)
 	gps.heading_offset = NAN;
 
 	gps.timestamp = hrt_absolute_time();
+
+	//Mod
+	// hrt_abstime now = hrt_absolute_time();
+	// PX4_INFO("Current time: %llu us", (unsigned long long)now);
+	// gps.lat = 296603018;
+	//mod end
 
 	_sensor_gps_pub.publish(gps);
 }

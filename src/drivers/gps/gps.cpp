@@ -45,6 +45,11 @@
 #include <poll.h>
 #endif
 
+// // Modified by Yosgarf on 20231203
+// #include <px4_log.h>
+// #include <px4_platform_common/posix.h>
+// // Mod End
+
 #include <termios.h>
 #include <cstring>
 
@@ -1142,6 +1147,11 @@ GPS::publish()
 {
 	if (_instance == Instance::Main || _is_gps_main_advertised.load()) {
 		_report_gps_pos.device_id = get_device_id();
+
+		// //Mod
+		// hrt_abstime now = hrt_absolute_time();
+		// PX4_INFO("Current time: %llu us", (unsigned long long)now);
+		// //mod end
 
 		_report_gps_pos_pub.publish(_report_gps_pos);
 		// Heading/yaw data can be updated at a lower rate than the other navigation data.

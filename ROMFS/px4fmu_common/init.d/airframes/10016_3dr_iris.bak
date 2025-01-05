@@ -37,11 +37,4 @@ param set-default MC_YAWRATE_I 0.25
 param set-default BAT1_V_DIV 12.27559
 param set-default BAT1_A_PER_V 15.391030303103
 
-# my self test
-param set-default SDLOG_DIRS_MAX 0
-param set-default SDLOG_MODE 0
-param set-default SDLOG_PROFILE 19
-param set-default RTL_RETURN_ALT 3.0
-# my self test end
-
 set MIXER quad_w

@@ -11,13 +11,32 @@ bool PX4Gyroscope::attack_enabled(const uint8_t &attack_type, const hrt_abstime 
 void PX4Gyroscope::applyGyroAttack(sensor_gyro_s &gyro) {
     // Attempt to Apply Sensor Attack at X-axis
     if (attack_enabled(sensor_attack::ATK_MASK_GYRO, gyro.timestamp_sample)) {
-        _last_deviation[0] = _param_atk_gyr_bias.get();
+        _last_deviation[0] = 0.f;
         _last_deviation[1] = 0.f;
         _last_deviation[2] = 0.f;
 
-        gyro.x += _last_deviation[0];
-        gyro.y += _last_deviation[1];
-        gyro.z += _last_deviation[2];
+        // Modified by Yosgarf on 20230908
+        double noiseTemp;
+
+        double amplitude = _param_atk_gyr_cos_amp.get();
+        double frequency = _param_atk_gyr_cos_freq.get();
+        double phase = _param_atk_gyr_cos_ph.get();
+        double bias = _param_atk_gyr_bias.get();
+
+        double time = static_cast<double>(gyro.timestamp_sample) / 1000000.0;
+
+        noiseTemp = amplitude * cos(2 * M_PI * frequency * time + phase) + bias;
+        float noise = float(noiseTemp);
+
+        if (_param_atk_gyr_axis.get() & (1 << 0)) {
+            gyro.x += noise;
+        }
+        if (_param_atk_gyr_axis.get() & (1 << 1)) {
+            gyro.y += noise;
+        }
+        if (_param_atk_gyr_axis.get() & (1 << 2)) {
+            gyro.z += noise;
+        }
 
     } else {
         _last_deviation[0] = 0.f;

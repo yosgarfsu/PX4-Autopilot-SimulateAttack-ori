@@ -77,6 +77,7 @@ private:
     bool attack_enabled(const uint8_t &attack_type) const;
 	void ConductVelocitySpoofing(sensor_gps_s &gps_position);
     void ConductPositionSpoofing(sensor_gps_s &gps_position);
+    void ConductVPSpoofing(sensor_gps_s &gps_position);
 
 	// defines used to specify the mask position for use of different accuracy metrics in the GPS blending algorithm
 	static constexpr uint8_t BLEND_MASK_USE_SPD_ACC  = 1;
@@ -99,6 +100,13 @@ private:
 
     int                 _attack_flag_prev{0};
     hrt_abstime         _attack_timestamp{0};
+    double		_false_velocity_prev{0.0};
+    uint64_t		_atk_timestamp_prev{0};
+    int32_t		_pos_lat_prev{0};
+    int32_t		_pos_lon_prev{0};
+    int32_t		_pos_lat_ori{0};
+    int32_t		_pos_lon_ori{0};
+    int32_t		_pos_record{0};
 
 	perf_counter_t _cycle_perf{perf_alloc(PC_ELAPSED, MODULE_NAME": cycle")};
 

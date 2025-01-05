@@ -489,9 +489,6 @@ bool LoggedTopics::add_topic_multi(const char *name, uint16_t interval_ms, uint8
 
 bool LoggedTopics::initialize_logged_topics(SDLogProfileMask profile)
 {
-	// Modified by Yosgarf on 20230909
-	initialize_configured_topics(profile);
-	// Mod end
 	int ntopics = add_topics_from_file(PX4_STORAGEDIR "/etc/logging/logger_topics.txt");
 
 	if (ntopics > 0) {

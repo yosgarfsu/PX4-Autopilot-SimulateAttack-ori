@@ -110,6 +110,10 @@ private:
         (ParamInt<px4::params::ATK_APPLY_TYPE>) _param_atk_apply_type,
         (ParamInt<px4::params::ATK_COUNTDOWN_MS>) _param_atk_countdown_ms,
         (ParamInt<px4::params::ATK_MULTI_IMU>) _param_atk_multi_imu,
-        (ParamFloat<px4::params::ATK_ACC_BIAS>) _param_atk_acc_bias
+        (ParamFloat<px4::params::ATK_ACC_BIAS>) _param_atk_acc_bias,
+	(ParamFloat<px4::params::ATK_ACC_COS_AMP>) _param_atk_acc_cos_amp,
+	(ParamFloat<px4::params::ATK_ACC_COS_FREQ>) _param_atk_acc_cos_freq,
+	(ParamFloat<px4::params::ATK_ACC_COS_PH>) _param_atk_acc_cos_ph,
+	(ParamInt<px4::params::ATK_ACC_AXIS>) _param_atk_acc_axis
     )
 };

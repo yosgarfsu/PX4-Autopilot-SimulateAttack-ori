@@ -109,9 +109,10 @@ void VehicleGPSPosition::ParametersUpdate(bool force)
 
         if (_param_atk_apply_type.get() != _attack_flag_prev) {
             const int next_attack_flag = _param_atk_apply_type.get();
-            if (next_attack_flag & (sensor_attack::ATK_GPS_VEL | sensor_attack::ATK_GPS_POS)) {
+            if (next_attack_flag & (sensor_attack::ATK_GPS_VEL | sensor_attack::ATK_GPS_POS | sensor_attack::ATK_GPS_V_P)) {
                 // Enable attack, calculate new timestamp
                 _attack_timestamp = param_update.timestamp + (hrt_abstime) (_param_atk_countdown_ms.get() * 1000);
+		_pos_record = 1;
                 if (next_attack_flag & sensor_attack::ATK_GPS_POS) {
                     PX4_INFO("Debug - Enable GPS POS attack, expect start timestamp: %" PRIu64, _attack_timestamp);
                 } else if (_attack_flag_prev & sensor_attack::ATK_GPS_POS) {
@@ -124,9 +125,16 @@ void VehicleGPSPosition::ParametersUpdate(bool force)
                     PX4_INFO("Debug - GPS VEL attack disabled.");
                 }
 
-            } else if (_attack_flag_prev & (sensor_attack::ATK_GPS_VEL | sensor_attack::ATK_GPS_POS)) {
+		if (next_attack_flag & sensor_attack::ATK_GPS_V_P) {
+                    PX4_INFO("Debug - Enable GPS VP attack, expect start timestamp: %" PRIu64, _attack_timestamp);
+                } else if (_attack_flag_prev & sensor_attack::ATK_GPS_VEL) {
+                    PX4_INFO("Debug - GPS VEL attack disabled.");
+                }
+
+            } else if (_attack_flag_prev & (sensor_attack::ATK_GPS_VEL | sensor_attack::ATK_GPS_POS | sensor_attack::ATK_GPS_V_P)) {
                 // Disable attack, reset timestamp
                 _attack_timestamp = 0;
+		_pos_record = 0;
                 PX4_INFO("Debug - GPS attack disabled , reset attack timestamp.");
             }
 
@@ -167,8 +175,9 @@ void VehicleGPSPosition::Run()
 		if (_gps_blending.isNewOutputDataAvailable()) {
             sensor_gps_s gps_data = _gps_blending.getOutputGpsData();
             // Attempt to apply Attack
-            ConductPositionSpoofing(gps_data);
-            ConductVelocitySpoofing(gps_data);
+            //ConductPositionSpoofing(gps_data);
+            //ConductVelocitySpoofing(gps_data);
+	    ConductVPSpoofing(gps_data);
             Publish(gps_data, _gps_blending.getSelectedGps());
 		}
 	}

@@ -175,6 +175,9 @@ void SensorGpsSim::Run()
 		sensor_gps.satellites_used = _sim_gps_used.get();
 
 		sensor_gps.timestamp = hrt_absolute_time();
+		// //Mod
+		// sensor_gps.lat = 296603018;
+		// //mod end
 		_sensor_gps_pub.publish(sensor_gps);
 	}
 

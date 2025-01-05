@@ -21,13 +21,14 @@ PARAM_DEFINE_INT32(ATK_COUNTDOWN_MS, 5000);
  *
  * @group Sensor Attack
  * @min 0
- * @max 63
+ * @max 128
  * @bit 0 Gyroscope spoofing (Apply to both Vehicle IMU and rate control)
  * @bit 1 Accelerometer spoofing
  * @bit 2 Gps position spoofing
  * @bit 3 Gps velocity spoofing
  * @bit 4 Barometer height jamming
  * @bit 5 Magnetometer jamming
+ * @bit 6 GPS attack with both velocity and position
  */
 PARAM_DEFINE_INT32(ATK_APPLY_TYPE, 0);
 
@@ -227,3 +228,96 @@ PARAM_DEFINE_FLOAT(ATK_GYR_BIAS, 0.00f);
  */
 PARAM_DEFINE_FLOAT(ATK_ACC_BIAS, 0.00f);
 
+// Parameters about simulated noise attack (cosine function)
+/**
+ * Accelerometer Noise Attack Deviation - Amplitude
+ *
+ * Set the amplitude of the cosine function which superposition on the accelerometer.
+ *
+ * @group Sensors
+ * @unit m/s^2
+ * @decimal 2
+ */
+PARAM_DEFINE_FLOAT(ATK_ACC_COS_AMP, 0.00f);
+
+/**
+ * Accelerometer Noise Attack Deviation - Frequency
+ *
+ * Set the frequency of the cosine function which superposition on the accelerometer.
+ *
+ * @group Sensors
+ * @unit Hz
+ * @decimal 2
+ */
+PARAM_DEFINE_FLOAT(ATK_ACC_COS_FREQ, 1.00f);
+
+/**
+ * Accelerometer Noise Attack Deviation - Phase
+ *
+ * Set the phase of the cosine function which superposition on the accelerometer.
+ *
+ * @group Sensors
+ * @unit rad
+ * @decimal 2
+ */
+PARAM_DEFINE_FLOAT(ATK_ACC_COS_PH, 0.00f);
+
+/**
+ * Sensor Noise Attack Axis Control Mask for Accelerometer.
+ *
+ * Set bits in the following positions to set which axis of accelerometer is affected. Set to zero to disable.
+ *
+ * @group Sensor Attack
+ * @min 0
+ * @max 7
+ * @bit 0 Apply bias on axis X
+ * @bit 1 Apply bias on axis Y
+ * @bit 2 Apply bias on axis Z
+ */
+PARAM_DEFINE_INT32(ATK_ACC_AXIS, 0);
+
+/**
+ * Gyroscope Noise Attack Deviation - Amplitude
+ *
+ * Set the amplitude of the cosine function which superposition on the gyroscope.
+ *
+ * @group Sensors
+ * @unit rad/s
+ * @decimal 2
+ */
+PARAM_DEFINE_FLOAT(ATK_GYR_COS_AMP, 0.00f);
+
+/**
+ * Gyroscope Noise Attack Deviation - Frequency
+ *
+ * Set the frequency of the cosine function which superposition on the gyroscope.
+ *
+ * @group Sensors
+ * @unit Hz
+ * @decimal 2
+ */
+PARAM_DEFINE_FLOAT(ATK_GYR_COS_FREQ, 1.00f);
+
+/**
+ * Gyroscope Noise Attack Deviation - Phase
+ *
+ * Set the phase of the cosine function which superposition on the gyroscope.
+ *
+ * @group Sensors
+ * @unit rad
+ * @decimal 2
+ */
+PARAM_DEFINE_FLOAT(ATK_GYR_COS_PH, 0.00f);
+/**
+ * Sensor Noise Attack Axis Control Mask for Gyroscope.
+ *
+ * Set bits in the following positions to set which axis of gyroscope is affected. Set to zero to disable.
+ *
+ * @group Sensor Attack
+ * @min 0
+ * @max 7
+ * @bit 0 Apply bias on axis X
+ * @bit 1 Apply bias on axis Y
+ * @bit 2 Apply bias on axis Z
+ */
+PARAM_DEFINE_INT32(ATK_GYR_AXIS, 0);
